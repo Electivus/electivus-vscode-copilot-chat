@@ -236,7 +236,7 @@ function createChatContext(sessionId: string, isUntitled: boolean): vscode.ChatC
 		history: [],
 		yieldRequested: false,
 		chatSessionContext: {
-			chatSessionItem: { resource: vscode.Uri.from({ scheme: 'copilotcli', path: `/${sessionId}` }), label: 'temp' } as vscode.ChatSessionItem,
+			chatSessionItem: { resource: vscode.Uri.from({ scheme: 'electivus-copilotcli', path: `/${sessionId}` }), label: 'temp' } as vscode.ChatSessionItem,
 			isUntitled
 		} as vscode.ChatSessionContext,
 	} as vscode.ChatContext;
@@ -780,7 +780,7 @@ describe('CopilotCLIChatSessionParticipant.handleRequest', () => {
 			customSessionTitleService,
 			new (mock<IOctoKitService>())(),
 		);
-		const sessionResource = vscode.Uri.from({ scheme: 'copilotcli', path: `/${sessionId}` });
+		const sessionResource = vscode.Uri.from({ scheme: 'electivus-copilotcli', path: `/${sessionId}` });
 		const contentToken = disposables.add(new CancellationTokenSource()).token;
 
 		const sessionContent = await invalidContentProvider.provideChatSessionContentForExistingSession(sessionResource, contentToken);
@@ -1747,7 +1747,7 @@ describe('CopilotCLIChatSessionParticipant.handleRequest', () => {
 		// When delegating from another chat:
 		// 1. handleRequest is called with chatSessionContext=undefined → triggers handleDelegationFromAnotherChat
 		// 2. createCLISessionAndSubmitRequest creates a session, stores prompt in contextForRequest,
-		//    then calls vscode.commands.executeCommand('workbench.action.chat.openSessionWithPrompt.copilotcli', ...)
+		//    then calls vscode.commands.executeCommand('workbench.action.chat.openSessionWithPrompt.electivus-copilotcli', ...)
 		// 3. VS Code core opens the new session and calls handleRequest again with the copilotcli:// resource,
 		//    but due to a core bug chatSessionContext may be undefined
 		// 4. The workaround detects the copilotcli:// scheme + stored contextForRequest data and
@@ -1757,7 +1757,7 @@ describe('CopilotCLIChatSessionParticipant.handleRequest', () => {
 			// Override the default throwing behavior to simulate VS Code core
 			// calling handleRequest again with the copilotcli:// resource but with chatSessionContext lost.
 			mockExecuteCommand.mockImplementation(async (command: string, args: any) => {
-				if (command === 'workbench.action.chat.openSessionWithPrompt.copilotcli') {
+				if (command === 'workbench.action.chat.openSessionWithPrompt.electivus-copilotcli') {
 					// Simulate VS Code core: it opens the session and fires handleRequest,
 					// but the core bug means chatSessionContext is undefined.
 					const callbackRequest = new TestChatRequest(args.prompt);
@@ -1786,9 +1786,9 @@ describe('CopilotCLIChatSessionParticipant.handleRequest', () => {
 
 			// executeCommand should have been called with the correct command and args
 			expect(mockExecuteCommand).toHaveBeenCalledWith(
-				'workbench.action.chat.openSessionWithPrompt.copilotcli',
+				'workbench.action.chat.openSessionWithPrompt.electivus-copilotcli',
 				expect.objectContaining({
-					resource: expect.objectContaining({ scheme: 'copilotcli' }),
+					resource: expect.objectContaining({ scheme: 'electivus-copilotcli' }),
 					prompt: 'Build feature X',
 				})
 			);
@@ -1815,10 +1815,10 @@ describe('CopilotCLIChatSessionParticipant.handleRequest', () => {
 			// The second executeCommand call (from that inner delegation) falls back to the
 			// default mock which correctly passes args.resource, activating the workaround.
 			mockExecuteCommand.mockImplementationOnce(async (command: string, args: any) => {
-				if (command === 'workbench.action.chat.openSessionWithPrompt.copilotcli') {
+				if (command === 'workbench.action.chat.openSessionWithPrompt.electivus-copilotcli') {
 					const callbackRequest = new TestChatRequest(args.prompt);
 					// Use a different session id than the one created by the delegation
-					callbackRequest.sessionResource = vscode.Uri.from({ scheme: 'copilotcli', path: '/unknown-session-999' }) as any;
+					callbackRequest.sessionResource = vscode.Uri.from({ scheme: 'electivus-copilotcli', path: '/unknown-session-999' }) as any;
 					const callbackContext = { chatSessionContext: undefined } as vscode.ChatContext;
 					const callbackStream = new MockChatResponseStream();
 					const callbackToken = disposables.add(new CancellationTokenSource()).token;
@@ -1858,7 +1858,7 @@ describe('CopilotCLIChatSessionParticipant.handleRequest', () => {
 
 			// executeCommand should have been called (delegation creates a session and calls it)
 			expect(mockExecuteCommand).toHaveBeenCalledWith(
-				'workbench.action.chat.openSessionWithPrompt.copilotcli',
+				'workbench.action.chat.openSessionWithPrompt.electivus-copilotcli',
 				expect.objectContaining({
 					prompt: 'do some work',
 				})
@@ -2175,7 +2175,7 @@ describe('CopilotCLIChatSessionParticipant.handleRequest', () => {
 			await participant.createHandler()(request, context, stream, token);
 
 			expect(capturedUri).toBeDefined();
-			expect(capturedUri!.scheme).toBe('copilotcli');
+			expect(capturedUri!.scheme).toBe('electivus-copilotcli');
 			expect(capturedUri!.path).toBe('/untitled:uri-check');
 		});
 

@@ -20,6 +20,6 @@ export function registerCommandContext(httpServer: InProcHttpServer) {
 }
 
 function setCliSessionContext(hasSession: boolean) {
-	void commands.executeCommand('setContext', 'github.copilot.chat.copilotCLI.hasSession', hasSession);
+	void commands.executeCommand('setContext', 'electivus.copilot.chat.copilotCLI.hasSession', hasSession);
 
 }

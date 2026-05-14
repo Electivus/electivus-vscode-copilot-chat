@@ -116,7 +116,7 @@ class TestEnvService {
 class TestExtensionContext {
 	declare readonly _serviceBrand: undefined;
 	globalStorageUri = { fsPath: '/tmp/test-global-storage' };
-	extension = { id: 'GitHub.copilot-chat' };
+	extension = { id: 'Electivus.electivus-vscode-copilot-chat' };
 	extensionUri = { fsPath: '/tmp/extensions/copilot-chat' };
 	extensionMode = 3; // ExtensionMode.Test
 }
@@ -378,7 +378,7 @@ describe('CopilotCLITerminalIntegration', () => {
 	describe('initialize', () => {
 		it('should contribute path to terminal service', async () => {
 			expect(terminalService.contributePathSpy).toHaveBeenCalledWith(
-				'copilot-cli',
+				'electivus-copilot-cli',
 				expect.stringContaining('copilotCli'),
 				expect.objectContaining({ command: 'copilot' }),
 				true,
@@ -387,7 +387,7 @@ describe('CopilotCLITerminalIntegration', () => {
 
 		it('should register a terminal profile provider', async () => {
 			expect(mockRegisterTerminalProfileProvider).toHaveBeenCalledWith(
-				'copilot-cli',
+				'electivus-copilot-cli',
 				expect.objectContaining({ provideTerminalProfile: expect.any(Function) }),
 			);
 		});

@@ -10,36 +10,36 @@
 // - These IDs should be used in package.json
 // - These IDs should only be registered if they appear in the package.json (meaning the command palette) or if the command needs to be supported when both extensions are loaded/active.
 
-export const CMDOpenPanelClient = 'github.copilot.generate';
-export const CMDOpenPanelChat = 'github.copilot.chat.openSuggestionsPanel'; // "github.copilot.chat.generate" is already being used
+export const CMDOpenPanelClient = 'electivus.copilot.generate';
+export const CMDOpenPanelChat = 'electivus.copilot.chat.openSuggestionsPanel'; // "electivus.copilot.chat.generate" is already being used
 
-export const CMDAcceptCursorPanelSolutionClient = 'github.copilot.acceptCursorPanelSolution';
-export const CMDNavigatePreviousPanelSolutionClient = 'github.copilot.previousPanelSolution';
-export const CMDNavigateNextPanelSolutionClient = 'github.copilot.nextPanelSolution';
+export const CMDAcceptCursorPanelSolutionClient = 'electivus.copilot.acceptCursorPanelSolution';
+export const CMDNavigatePreviousPanelSolutionClient = 'electivus.copilot.previousPanelSolution';
+export const CMDNavigateNextPanelSolutionClient = 'electivus.copilot.nextPanelSolution';
 
-export const CMDToggleStatusMenuClient = 'github.copilot.toggleStatusMenu';
-export const CMDToggleStatusMenuChat = 'github.copilot.chat.toggleStatusMenu';
+export const CMDToggleStatusMenuClient = 'electivus.copilot.toggleStatusMenu';
+export const CMDToggleStatusMenuChat = 'electivus.copilot.chat.toggleStatusMenu';
 
 // Needs to be supported in both extensions when they are loaded/active. Requires a different ID.
-export const CMDSendCompletionsFeedbackChat = 'github.copilot.chat.sendCompletionFeedback';
+export const CMDSendCompletionsFeedbackChat = 'electivus.copilot.chat.sendCompletionFeedback';
 
-export const CMDEnableCompletionsChat = 'github.copilot.chat.completions.enable';
-export const CMDDisableCompletionsChat = 'github.copilot.chat.completions.disable';
-export const CMDToggleCompletionsChat = 'github.copilot.chat.completions.toggle';
-export const CMDEnableCompletionsClient = 'github.copilot.completions.enable';
-export const CMDDisableCompletionsClient = 'github.copilot.completions.disable';
-export const CMDToggleCompletionsClient = 'github.copilot.completions.toggle';
+export const CMDEnableCompletionsChat = 'electivus.copilot.chat.completions.enable';
+export const CMDDisableCompletionsChat = 'electivus.copilot.chat.completions.disable';
+export const CMDToggleCompletionsChat = 'electivus.copilot.chat.completions.toggle';
+export const CMDEnableCompletionsClient = 'electivus.copilot.completions.enable';
+export const CMDDisableCompletionsClient = 'electivus.copilot.completions.disable';
+export const CMDToggleCompletionsClient = 'electivus.copilot.completions.toggle';
 
-export const CMDOpenLogsClient = 'github.copilot.openLogs';
-export const CMDOpenDocumentationClient = 'github.copilot.openDocs';
+export const CMDOpenLogsClient = 'electivus.copilot.openLogs';
+export const CMDOpenDocumentationClient = 'electivus.copilot.openDocs';
 
 // Existing chat command reused for diagnostics
-export const CMDCollectDiagnosticsChat = 'github.copilot.debug.collectDiagnostics';
+export const CMDCollectDiagnosticsChat = 'electivus.copilot.debug.collectDiagnostics';
 
 // Context variable that enable/disable panel-specific commands
-export const CopilotPanelVisible = 'github.copilot.panelVisible';
-export const ComparisonPanelVisible = 'github.copilot.comparisonPanelVisible';
-export const HasMultipleCompletionModels = 'github.copilot.completions.hasMultipleModels';
+export const CopilotPanelVisible = 'electivus.copilot.panelVisible';
+export const ComparisonPanelVisible = 'electivus.copilot.comparisonPanelVisible';
+export const HasMultipleCompletionModels = 'electivus.copilot.completions.hasMultipleModels';
 
-export const CMDOpenModelPickerClient = 'github.copilot.openModelPicker';
-export const CMDOpenModelPickerChat = 'github.copilot.chat.openModelPicker';
+export const CMDOpenModelPickerClient = 'electivus.copilot.openModelPicker';
+export const CMDOpenModelPickerChat = 'electivus.copilot.chat.openModelPicker';

@@ -113,57 +113,57 @@ export class ConfigurationMigrationContribution implements IExtensionContributio
 }
 
 ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: 'github.copilot.chat.experimental.setupTests.enabled',
+	key: 'electivus.copilot.chat.experimental.setupTests.enabled',
 	migrateFn: async (value: any) => {
 		return [
-			['github.copilot.chat.setupTests.enabled', { value }],
-			['github.copilot.chat.experimental.setupTests.enabled', { value: undefined }]
+			['electivus.copilot.chat.setupTests.enabled', { value }],
+			['electivus.copilot.chat.experimental.setupTests.enabled', { value: undefined }]
 		];
 	}
 }]);
 
 ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: 'github.copilot.chat.experimental.codeGeneration.instructions',
+	key: 'electivus.copilot.chat.experimental.codeGeneration.instructions',
 	migrateFn: async (value: any) => {
 		return [
-			['github.copilot.chat.codeGeneration.instructions', { value }],
-			['github.copilot.chat.experimental.codeGeneration.instructions', { value: undefined }]
+			['electivus.copilot.chat.codeGeneration.instructions', { value }],
+			['electivus.copilot.chat.experimental.codeGeneration.instructions', { value: undefined }]
 		];
 	}
 }]);
 
 ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: 'github.copilot.chat.experimental.codeGeneration.useInstructionFiles',
+	key: 'electivus.copilot.chat.experimental.codeGeneration.useInstructionFiles',
 	migrateFn: async (value: any) => {
 		return [
-			['github.copilot.chat.codeGeneration.useInstructionFiles', { value }],
-			['github.copilot.chat.experimental.codeGeneration.useInstructionFiles', { value: undefined }]
+			['electivus.copilot.chat.codeGeneration.useInstructionFiles', { value }],
+			['electivus.copilot.chat.experimental.codeGeneration.useInstructionFiles', { value: undefined }]
 		];
 	}
 }]);
 
 ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: 'github.copilot.chat.experimental.testGeneration.instructions',
+	key: 'electivus.copilot.chat.experimental.testGeneration.instructions',
 	migrateFn: async (value: any) => {
 		return [
-			['github.copilot.chat.testGeneration.instructions', { value }],
-			['github.copilot.chat.experimental.testGeneration.instructions', { value: undefined }]
+			['electivus.copilot.chat.testGeneration.instructions', { value }],
+			['electivus.copilot.chat.experimental.testGeneration.instructions', { value: undefined }]
 		];
 	}
 }]);
 
 ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: 'github.copilot.chat.planAgent.model',
+	key: 'electivus.copilot.chat.planAgent.model',
 	migrateFn: async (value: any) => {
 		return [
 			['chat.planAgent.defaultModel', { value }],
-			['github.copilot.chat.planAgent.model', { value: undefined }]
+			['electivus.copilot.chat.planAgent.model', { value: undefined }]
 		];
 	}
 }]);
 
-const oldCursorJumpKey = 'github.copilot.chat.advanced.inlineEdits.nextCursorPrediction.enabled';
-const newCursorJumpKey = 'github.copilot.nextEditSuggestions.extendedRange';
+const oldCursorJumpKey = 'electivus.copilot.chat.advanced.inlineEdits.nextCursorPrediction.enabled';
+const newCursorJumpKey = 'electivus.copilot.nextEditSuggestions.extendedRange';
 ConfigurationMigrationRegistry.registerConfigurationMigrations([{
 	key: oldCursorJumpKey,
 	migrateFn: async (value: boolean |  /* the rest is for backward compat: */ NextCursorLinePrediction | 'labelOnlyWithEdit' | boolean | undefined) => {

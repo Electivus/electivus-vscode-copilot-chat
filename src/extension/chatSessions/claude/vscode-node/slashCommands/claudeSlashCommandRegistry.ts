@@ -70,7 +70,7 @@ const handlerRegistry: IClaudeSlashCommandHandlerCtor[] = [];
  * 3. Import it in `slashCommands/index.ts`
  * 4. Add entries to `package.json`:
  *    - Under `contributes.commands`: Add the VS Code command (e.g., `copilot.claude.mycommand`)
- *    - Under `contributes.chatSessions[type="claude-code"].commands`: Add the slash command name and description
+ *    - Under `contributes.chatSessions[type="electivus-claude-code"].commands`: Add the slash command name and description
  *
  * @param ctor - The handler constructor class
  *

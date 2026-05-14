@@ -186,10 +186,10 @@ class ContextResolver implements Copilot.ContextResolver<Copilot.SupportedContex
 			}
 
 			// Select a mini model (gpt-4o-mini)
-			const models = await vscode.lm.selectChatModels({ family: 'gpt-4o-mini', vendor: 'copilot' });
+			const models = await vscode.lm.selectChatModels({ family: 'gpt-4o-mini', vendor: 'electivus-copilot' });
 			if (models.length === 0) {
 				// Fallback to any available model
-				const allModels = await vscode.lm.selectChatModels({ vendor: 'copilot' });
+				const allModels = await vscode.lm.selectChatModels({ vendor: 'electivus-copilot' });
 				if (allModels.length === 0) {
 					this.logService.trace('[ChatSessionContextProvider] No language models available');
 					return undefined;

@@ -23,7 +23,7 @@ interface IVSCodeCmdToolToolInput {
 
 /** Commands that are read-only / have no side effects and can run without user confirmation. */
 const noConfirmationCommands = new Set([
-	'github.copilot.debug.collectDiagnostics',
+	'electivus.copilot.debug.collectDiagnostics',
 ]);
 
 class VSCodeCmdTool implements vscode.LanguageModelTool<IVSCodeCmdToolToolInput> {

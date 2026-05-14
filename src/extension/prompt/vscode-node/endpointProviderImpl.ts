@@ -76,7 +76,7 @@ export class ProductionEndpointProvider extends Disposable implements IEndpointP
 			return this.getChatEndpoint('copilot-base');
 		}
 
-		if (model.vendor !== 'copilot') {
+		if (model.vendor !== 'electivus-copilot') {
 			return this._instantiationService.createInstance(ExtensionContributedChatEndpoint, model);
 		}
 

@@ -528,10 +528,10 @@ Keep the systemPrompt focused but thorough. Include specific instructions for ho
 Respond ONLY with the JSON object, no markdown code blocks or other text.`;
 
 			// Use claude-sonnet-4.5 for agent generation (fast and efficient for structured output)
-			let models = await vscode.lm.selectChatModels({ family: 'claude-sonnet-4.5', vendor: 'copilot' });
+			let models = await vscode.lm.selectChatModels({ family: 'claude-sonnet-4.5', vendor: 'electivus-copilot' });
 			if (models.length === 0) {
 				// Fallback to any available model
-				models = await vscode.lm.selectChatModels({ vendor: 'copilot' });
+				models = await vscode.lm.selectChatModels({ vendor: 'electivus-copilot' });
 				// Get latest claude-sonnet- model
 				models = models
 					.filter(model => model.family.startsWith('claude-sonnet-'))

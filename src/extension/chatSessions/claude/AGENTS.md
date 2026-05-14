@@ -387,7 +387,7 @@ To add new functionality:
 ## Configuration
 
 The integration respects VS Code settings:
-- `github.copilot.advanced.claudeCodeDebugEnabled`: Enables debug logging from Claude Code SDK
+- `electivus.copilot.advanced.claudeCodeDebugEnabled`: Enables debug logging from Claude Code SDK
 
 ## Upgrading Anthropic SDK Packages
 

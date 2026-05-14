@@ -48,7 +48,7 @@ beforeAll(() => {
 			lastCreatedItemsMap = itemsMap;
 			lastForkHandler = undefined;
 			return {
-				id: 'claude-code',
+				id: 'electivus-claude-code',
 				items: {
 					get: (resource: URI) => itemsMap.get(resource.toString()),
 					add: (item: vscode.ChatSessionItem) => { itemsMap.set(item.resource.toString(), item); },
@@ -1157,7 +1157,7 @@ describe('ClaudeChatSessionItemController', () => {
 
 			expect(mockSessionService.getSession).toHaveBeenCalledOnce();
 			const [calledUri] = vi.mocked(mockSessionService.getSession).mock.calls[0];
-			expect(calledUri.scheme).toBe('claude-code');
+			expect(calledUri.scheme).toBe('electivus-claude-code');
 			expect(calledUri.path).toBe('/disk-session');
 		});
 
@@ -1186,7 +1186,7 @@ describe('ClaudeChatSessionItemController', () => {
 			await controller.updateItemStatus('my-session', ChatSessionStatus.InProgress, 'hello');
 
 			const item = getItem('my-session');
-			expect(item!.resource.scheme).toBe('claude-code');
+			expect(item!.resource.scheme).toBe('electivus-claude-code');
 			expect(item!.resource.path).toBe('/my-session');
 		});
 
@@ -1720,5 +1720,5 @@ describe('ClaudeChatSessionItemController', () => {
 	// #endregion
 });
 function createClaudeSessionUri(id: string): URI {
-	return URI.parse(`claude-code:/${id}`);
+	return URI.parse(`electivus-claude-code:/${id}`);
 }

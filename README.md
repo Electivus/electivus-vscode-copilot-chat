@@ -6,12 +6,21 @@ This fork exists for environments where the official extension's newer Responses
 
 ## What changes in this fork
 
-* Responses API WebSocket transport can be enabled with `github.copilot.chat.advanced.responsesApi.webSocket.enabled` without requiring the account token to be marked internal.
-* Responses API server-side `context_management` is only sent when `github.copilot.chat.responsesApiContextManagement.enabled` is explicitly configured.
+* Responses API WebSocket transport can be enabled with `electivus.copilot.chat.advanced.responsesApi.webSocket.enabled` without requiring the account token to be marked internal.
+* Responses API server-side `context_management` is only sent when `electivus.copilot.chat.responsesApiContextManagement.enabled` is explicitly configured.
 * Conversation summarization and `/compact` prefer Chat Completions when the selected Copilot model supports it, reducing the chance of large Responses API uploads during compaction.
 * GPT reasoning model Chat Completions requests use `max_completion_tokens` where required by the API.
 
-Because this fork intentionally keeps many internal command IDs and context keys compatible with the upstream extension, do not run it side by side with the official GitHub Copilot Chat extension in the same VS Code profile.
+From version 0.44.3 onward, the fork uses Electivus-namespaced command IDs, chat participant IDs, view IDs, context keys, settings, and language model provider IDs. That makes it safer to install next to the official GitHub Copilot Chat extension in the same VS Code profile. If you want this fork to be the active Copilot Chat experience, disable the official extension itself rather than using VS Code's global "Disable AI Features" control.
+
+Recommended settings for environments where large Responses API request bodies are blocked:
+
+```json
+{
+  "electivus.copilot.chat.advanced.responsesApi.webSocket.enabled": true,
+  "electivus.copilot.chat.responsesApiContextManagement.enabled": false
+}
+```
 
 **[GitHub Copilot](https://code.visualstudio.com/docs/copilot/overview)** is an AI peer programming tool that transforms how you write code in Visual Studio Code.
 

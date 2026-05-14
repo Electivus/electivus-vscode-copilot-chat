@@ -273,7 +273,7 @@ export function registerServices(builder: IInstantiationServiceBuilder, extensio
 	builder.define(IOTelSqliteStore, otelSqliteStore);
 
 	// OTel service — resolve config from env + settings, create appropriate impl
-	const otelSettings = workspace.getConfiguration('github.copilot.chat.otel');
+	const otelSettings = workspace.getConfiguration('electivus.copilot.chat.otel');
 	const otelConfig = resolveOTelConfig({
 		env: process.env,
 		settingEnabled: otelSettings.get<boolean>('enabled'),
