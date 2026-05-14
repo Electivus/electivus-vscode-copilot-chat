@@ -13,6 +13,7 @@ import { ChatFetchResponseType, ChatLocation, ChatResponse, FetchSuccess } from 
 import { IHistoricalTurn, ISessionTranscriptService } from '../../../../platform/chat/common/sessionTranscriptService';
 import { ConfigKey, IConfigurationService } from '../../../../platform/configuration/common/configurationService';
 import { isAnthropicFamily, isGeminiFamily } from '../../../../platform/endpoint/common/chatModelCapabilities';
+import { ModelSupportedEndpoint } from '../../../../platform/endpoint/common/endpointProvider';
 import { ILogService } from '../../../../platform/log/common/logService';
 import { CUSTOM_TOOL_SEARCH_NAME } from '../../../../platform/networking/common/anthropic';
 import { IChatEndpoint } from '../../../../platform/networking/common/networking';
@@ -751,7 +752,8 @@ class ConversationHistorySummarizer {
 				}
 			}
 
-			summaryResponse = await endpoint.makeChatRequest2({
+			const summaryEndpoint = getChatCompletionsSummarizationEndpoint(endpoint);
+			summaryResponse = await summaryEndpoint.makeChatRequest2({
 				debugName: `summarizeConversationHistory-${mode}`,
 				messages,
 				finishedCb: undefined,
@@ -961,6 +963,17 @@ export function stripToolSearchMessages(messages: ChatMessage[]): ChatMessage[] 
 		}
 		return message;
 	}).filter((m): m is ChatMessage => m !== undefined);
+}
+
+function getChatCompletionsSummarizationEndpoint(endpoint: IChatEndpoint): IChatEndpoint {
+	const supportedEndpoints = (endpoint as { modelMetadata?: { supported_endpoints?: string[] } }).modelMetadata?.supported_endpoints;
+	if (endpoint.apiType === 'responses'
+		&& endpoint.cloneWithChatCompletionsApi
+		&& supportedEndpoints?.includes(ModelSupportedEndpoint.ChatCompletions)) {
+		return endpoint.cloneWithChatCompletionsApi();
+	}
+
+	return endpoint;
 }
 
 export interface ISummarizedConversationHistoryInfo {

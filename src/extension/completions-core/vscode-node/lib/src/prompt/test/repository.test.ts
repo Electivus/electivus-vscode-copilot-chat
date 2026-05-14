@@ -29,17 +29,17 @@ suite('Extract repo info tests', function () {
 		assert.ok(repoId);
 		assert.deepStrictEqual(
 			{ org: repoId.org, repo: repoId.repo, type: repoId.type },
-			{ org: 'microsoft', repo: 'vscode-copilot-chat', type: 'github' }
+			{ org: 'Electivus', repo: 'electivus-vscode-copilot-chat', type: 'github' }
 		);
 		assert.ok(
 			[
-				'git@github.com:microsoft/vscode-copilot-chat',
-				'https://github.com/microsoft/vscode-copilot-chat',
-				'https://github.com/microsoft/vscode-copilot-chat.git',
+				'git@github.com:Electivus/electivus-vscode-copilot-chat',
+				'https://github.com/Electivus/electivus-vscode-copilot-chat',
+				'https://github.com/Electivus/electivus-vscode-copilot-chat.git',
 			].includes(url),
 			`url is ${url}`
 		);
-		assert.ok(pathname.startsWith('/github/vscode-copilot-chat') || pathname.startsWith('/microsoft/vscode-copilot-chat'));
+		assert.ok(pathname.toLowerCase().startsWith('/electivus/electivus-vscode-copilot-chat'));
 
 		assert.deepStrictEqual(await extractRepoInfo(accessor, 'file:///tmp/does/not/exist/.git/config'), undefined);
 	});
@@ -63,17 +63,17 @@ suite('Extract repo info tests', function () {
 		assert.ok(repoId);
 		assert.deepStrictEqual(
 			{ org: repoId.org, repo: repoId.repo, type: repoId.type },
-			{ org: 'microsoft', repo: 'vscode-copilot-chat', type: 'github' }
+			{ org: 'Electivus', repo: 'electivus-vscode-copilot-chat', type: 'github' }
 		);
 		assert.ok(
 			[
-				'git@github.com:microsoft/vscode-copilot-chat',
-				'https://github.com/microsoft/vscode-copilot-chat',
-				'https://github.com/microsoft/vscode-copilot-chat.git',
+				'git@github.com:Electivus/electivus-vscode-copilot-chat',
+				'https://github.com/Electivus/electivus-vscode-copilot-chat',
+				'https://github.com/Electivus/electivus-vscode-copilot-chat.git',
 			].includes(url),
 			`url is ${url}`
 		);
-		assert.ok(pathname.startsWith('/github/vscode-copilot-chat') || pathname.startsWith('/microsoft/vscode-copilot-chat'));
+		assert.ok(pathname.toLowerCase().startsWith('/electivus/electivus-vscode-copilot-chat'));
 
 		assert.deepStrictEqual(await instantiationService.invokeFunction(extractRepoInfo, 'file:///tmp/does/not/exist/.git/config'), undefined);
 	});

@@ -56,7 +56,9 @@ export function createResponsesRequestBody(accessor: ServicesAccessor, options: 
 		text: verbosity ? { verbosity } : undefined,
 	};
 
-	const contextManagementEnabled = configService.getExperimentBasedConfig(ConfigKey.ResponsesApiContextManagementEnabled, expService) && !modelsWithoutResponsesContextManagement.has(endpoint.family);
+	const contextManagementEnabled = configService.isConfigured(ConfigKey.ResponsesApiContextManagementEnabled)
+		&& configService.getExperimentBasedConfig(ConfigKey.ResponsesApiContextManagementEnabled, expService)
+		&& !modelsWithoutResponsesContextManagement.has(endpoint.family);
 	if (contextManagementEnabled) {
 		const compactThreshold = endpoint.modelMaxPromptTokens > 0
 			? Math.floor(endpoint.modelMaxPromptTokens * 0.9)
