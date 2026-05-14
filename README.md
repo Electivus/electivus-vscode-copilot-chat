@@ -1,4 +1,17 @@
-# GitHub Copilot - Your autonomous AI peer programmer
+# Electivus Copilot Chat
+
+This is an Electivus-maintained fork of GitHub Copilot Chat for Visual Studio Code. It is not the official Marketplace build published by GitHub.
+
+This fork exists for environments where the official extension's newer Responses API flows can be blocked by corporate network or DLP rules, especially when automatic context compaction sends a large request body. The fork keeps the upstream Copilot Chat behavior as much as possible, but adds compatibility switches for those environments.
+
+## What changes in this fork
+
+* Responses API WebSocket transport can be enabled with `github.copilot.chat.advanced.responsesApi.webSocket.enabled` without requiring the account token to be marked internal.
+* Responses API server-side `context_management` is only sent when `github.copilot.chat.responsesApiContextManagement.enabled` is explicitly configured.
+* Conversation summarization and `/compact` prefer Chat Completions when the selected Copilot model supports it, reducing the chance of large Responses API uploads during compaction.
+* GPT reasoning model Chat Completions requests use `max_completion_tokens` where required by the API.
+
+Because this fork intentionally keeps many internal command IDs and context keys compatible with the upstream extension, do not run it side by side with the official GitHub Copilot Chat extension in the same VS Code profile.
 
 **[GitHub Copilot](https://code.visualstudio.com/docs/copilot/overview)** is an AI peer programming tool that transforms how you write code in Visual Studio Code.
 
@@ -73,11 +86,11 @@ To get the latest security fixes, please use the latest version of the Copilot e
 * **[Agents Tutorial](https://code.visualstudio.com/docs/copilot/agents/agents-tutorial)**: Get started with autonomous agents across different environments.
 * **[VS Code on YouTube](https://www.youtube.com/@code)**: Watch the latest demos and updates on the VS Code channel.
 * **[Frequently Asked Questions](https://code.visualstudio.com/docs/copilot/faq)**: Get answers to commonly asked questions about Copilot in VS Code.
-* **[Provide Feedback](https://github.com/microsoft/vscode-copilot-release/issues)**: Send us your feedback and feature request to help us make GitHub Copilot better!
+* **[Provide Feedback](https://github.com/Electivus/electivus-vscode-copilot-chat/issues)**: Send feedback and issues for this Electivus fork.
 
 ## Data and telemetry
 
-The GitHub Copilot Extension for Visual Studio Code collects usage data and sends it to Microsoft to help improve our products and services. Read our [privacy statement](https://privacy.microsoft.com/privacystatement) to learn more. This extension respects the `telemetry.telemetryLevel` setting which you can learn more about at https://code.visualstudio.com/docs/supporting/faq#_how-to-disable-telemetry-reporting.
+This fork inherits telemetry behavior from the upstream GitHub Copilot extension unless explicitly changed in this repository. The extension respects the `telemetry.telemetryLevel` setting, which you can learn more about at https://code.visualstudio.com/docs/supporting/faq#_how-to-disable-telemetry-reporting.
 
 ## Trademarks
 

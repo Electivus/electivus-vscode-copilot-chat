@@ -301,6 +301,7 @@ export interface IChatEndpoint extends IEndpoint {
 	createRequestBody(options: ICreateEndpointBodyOptions): IEndpointBody;
 
 	cloneWithTokenOverride(modelMaxPromptTokens: number): IChatEndpoint;
+	cloneWithChatCompletionsApi?(): IChatEndpoint;
 }
 
 /** Function to create a standard request body for CAPI completions */

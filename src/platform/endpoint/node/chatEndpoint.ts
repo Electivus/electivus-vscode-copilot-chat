@@ -355,6 +355,11 @@ export class ChatEndpoint implements IChatEndpoint {
 			}
 		}
 
+		if ((this.modelMetadata.capabilities.supports.thinking || this.supportsReasoningEffort?.length) && body.max_tokens !== undefined) {
+			body.max_completion_tokens = body.max_tokens;
+			delete body.max_tokens;
+		}
+
 		return body;
 	}
 
@@ -387,7 +392,7 @@ export class ChatEndpoint implements IChatEndpoint {
 			options.turnId
 			&& options.conversationId
 			&& this.useWebSocketResponsesApi
-			&& this._configurationService.getExperimentBasedConfig(ConfigKey.TeamInternal.ResponsesApiWebSocketEnabled, this._expService)
+			&& this._configurationService.getConfig(ConfigKey.ResponsesApiWebSocketEnabled)
 		);
 		const ignoreStatefulMarker = options.ignoreStatefulMarker ?? !(
 			useWebSocket
@@ -445,6 +450,13 @@ export class ChatEndpoint implements IChatEndpoint {
 		return this._instantiationService.createInstance(
 			ChatEndpoint,
 			mixin(deepClone(this.modelMetadata), { capabilities: { limits: { max_prompt_tokens: modelMaxPromptTokens } } }));
+	}
+
+	public cloneWithChatCompletionsApi(): IChatEndpoint {
+		const endpoint = Object.create(this) as IChatEndpoint;
+		Object.defineProperty(endpoint, 'useResponsesApi', { get: () => false });
+		Object.defineProperty(endpoint, 'useWebSocketResponsesApi', { get: () => false });
+		return endpoint;
 	}
 }
 
