@@ -71,7 +71,7 @@ export class LoggingActionsContrib {
 			const nodeFetchConfig = getShadowedConfig<boolean>(this.configurationService, this.experimentationService, ConfigKey.Shared.DebugUseNodeFetchFetcher, ConfigKey.TeamInternal.DebugExpUseNodeFetchFetcher);
 			const ext = vscode.extensions.getExtension(EXTENSION_ID);
 			const product = require(path.join(vscode.env.appRoot, 'product.json'));
-			await appendText(editor, `## GitHub Copilot Chat
+			await appendText(editor, `## Electivus Copilot Chat
 
 - Extension: ${this.envService.getVersion()} (${this.envService.getBuildType()})
 - VS Code: ${vscode.version} (${product.commit || 'out-of-source'})
