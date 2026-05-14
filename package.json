@@ -3804,8 +3804,8 @@
 						"default": false,
 						"markdownDescription": "%github.copilot.config.advanced.responsesApi.webSocket.enabled%",
 						"tags": [
-							"advanced",
-							"experimental"
+							"experimental",
+							"onExp"
 						]
 					},
 					"github.copilot.chat.responsesApi.promptCacheKey.enabled": {
