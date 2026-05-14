@@ -1,0 +1,18 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<linearGradient id="background" x1="10" y1="10" x2="246" y2="246" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#0B5EC7"/>
+			<stop offset="1" stop-color="#05B1BE"/>
+		</linearGradient>
+		<filter id="bubbleShadow" x="34" y="55" width="188" height="155" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+			<feDropShadow dx="0" dy="6" stdDeviation="0" flood-color="#002350" flood-opacity="0.18"/>
+		</filter>
+	</defs>
+	<rect x="10" y="10" width="236" height="236" rx="44" fill="url(#background)"/>
+	<path d="M182 10H246V86L182 10Z" fill="#7BF1D4" fill-opacity="0.7"/>
+	<g filter="url(#bubbleShadow)">
+		<path d="M70 57H186C201.464 57 214 69.536 214 85V145C214 160.464 201.464 173 186 173H119L83 202L93 173H70C54.536 173 42 160.464 42 145V85C42 69.536 54.536 57 70 57Z" fill="white"/>
+	</g>
+	<text x="129" y="144" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="84" font-weight="700" fill="#0B5EC7">E</text>
+	<text x="188" y="213" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#E6FFFA">AI</text>
+</svg>
