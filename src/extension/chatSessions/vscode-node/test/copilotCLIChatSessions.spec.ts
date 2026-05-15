@@ -40,7 +40,7 @@ vi.mock('../copilotCLIShim.ps1', () => ({ default: '# mock powershell script' })
 beforeAll(() => {
 	(vscodeShim as Record<string, unknown>).chat = {
 		createChatSessionItemController: () => ({
-			id: 'copilotcli',
+			id: 'electivus-copilotcli',
 			items: {
 				get: () => undefined,
 				add: () => { },
@@ -224,7 +224,7 @@ describe('CopilotCLIChatSessionContentProvider', () => {
 		const detectSpy = vi.spyOn(provider, 'detectPullRequestOnSessionOpen').mockResolvedValue();
 
 		await provider.provideChatSessionContentForExistingSession(
-			URI.from({ scheme: 'copilotcli', path: '/session-1' }),
+			URI.from({ scheme: 'electivus-copilotcli', path: '/session-1' }),
 			CancellationToken.None,
 		);
 

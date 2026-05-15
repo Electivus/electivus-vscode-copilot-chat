@@ -242,17 +242,17 @@
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "git.mergeEditor": false,
-  "github.copilot.chat.advanced.chatRequestPowerSaveBlocker": true,
-  "github.copilot.chat.advanced.debug.reportFeedback": true,
-  "github.copilot.chat.advanced.inlineEdits.ignoreCompletionsDisablement": true,
-  "github.copilot.chat.editor.temporalContext.enabled": false,
-  "github.copilot.chat.edits.temporalContext.enabled": false,
-  "github.copilot.chat.inlineChat.selectionRatioThreshold": 0,
-  "github.copilot.chat.languageContext.typescript.enabled": true,
-  "github.copilot.chat.localWorkspaceRecording.enabled": false,
-  "github.copilot.chat.search.semanticTextResults": false,
-  "github.copilot.editor.enableCodeActions": true,
-  "github.copilot.enable": {
+  "electivus.copilot.chat.advanced.chatRequestPowerSaveBlocker": true,
+  "electivus.copilot.chat.advanced.debug.reportFeedback": true,
+  "electivus.copilot.chat.advanced.inlineEdits.ignoreCompletionsDisablement": true,
+  "electivus.copilot.chat.editor.temporalContext.enabled": false,
+  "electivus.copilot.chat.edits.temporalContext.enabled": false,
+  "electivus.copilot.chat.inlineChat.selectionRatioThreshold": 0,
+  "electivus.copilot.chat.languageContext.typescript.enabled": true,
+  "electivus.copilot.chat.localWorkspaceRecording.enabled": false,
+  "electivus.copilot.chat.search.semanticTextResults": false,
+  "electivus.copilot.editor.enableCodeActions": true,
+  "electivus.copilot.enable": {
     "*": true,
     "markdown": false,
     "plaintext": false,
@@ -260,7 +260,7 @@
     "scminput": false,
     "yaml": false
   },
-  "github.copilot.nextEditSuggestions.enabled": true, // enable NES
+  "electivus.copilot.nextEditSuggestions.enabled": true, // enable NES
   "githubIssues.createInsertFormat": "url",
   "githubIssues.ignoreUserCompletionTrigger": [],
   "githubIssues.issueBranchTitle": "joh/issue${issueNumber}",
@@ -416,7 +416,7 @@
   "chat.tools.terminal.outputLocation": "chat",
   // "inlineChat.defaultModel": "GLM 4.7 (preview) (cerebras)",
   "workbench.browser.dataStorage": "workspace",
-  "github.copilot.chat.anthropic.contextEditing.enabled": true,
+  "electivus.copilot.chat.anthropic.contextEditing.enabled": true,
   "workbench.activityBar.location": "bottom",
   "chat.tips.enabled": false,
   "chat.viewSessions.orientation": "stacked"

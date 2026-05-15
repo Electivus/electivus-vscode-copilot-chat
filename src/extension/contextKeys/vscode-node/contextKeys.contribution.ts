@@ -17,29 +17,29 @@ import { GHPR_EXTENSION_ID } from '../../chatSessions/vscode/chatSessionsUriHand
 import { EXTENSION_ID } from '../../common/constants';
 
 const welcomeViewContextKeys = {
-	Activated: 'github.copilot-chat.activated',
-	Offline: 'github.copilot.offline',
-	IndividualDisabled: 'github.copilot.interactiveSession.individual.disabled',
-	IndividualExpired: 'github.copilot.interactiveSession.individual.expired',
-	ContactSupport: 'github.copilot.interactiveSession.contactSupport',
-	EnterpriseDisabled: 'github.copilot.interactiveSession.enterprise.disabled',
-	InvalidToken: 'github.copilot.interactiveSession.invalidToken',
-	RateLimited: 'github.copilot.interactiveSession.rateLimited',
-	GitHubLoginFailed: 'github.copilot.interactiveSession.gitHubLoginFailed',
+	Activated: 'electivus.electivus-vscode-copilot-chat.activated',
+	Offline: 'electivus.copilot.offline',
+	IndividualDisabled: 'electivus.copilot.interactiveSession.individual.disabled',
+	IndividualExpired: 'electivus.copilot.interactiveSession.individual.expired',
+	ContactSupport: 'electivus.copilot.interactiveSession.contactSupport',
+	EnterpriseDisabled: 'electivus.copilot.interactiveSession.enterprise.disabled',
+	InvalidToken: 'electivus.copilot.interactiveSession.invalidToken',
+	RateLimited: 'electivus.copilot.interactiveSession.rateLimited',
+	GitHubLoginFailed: 'electivus.copilot.interactiveSession.gitHubLoginFailed',
 };
 
-const chatQuotaExceededContextKey = 'github.copilot.chat.quotaExceeded';
+const chatQuotaExceededContextKey = 'electivus.copilot.chat.quotaExceeded';
 
-const showLogViewContextKey = `github.copilot.chat.showLogView`;
-const debugReportFeedbackContextKey = 'github.copilot.debugReportFeedback';
+const showLogViewContextKey = `electivus.copilot.chat.showLogView`;
+const debugReportFeedbackContextKey = 'electivus.copilot.debugReportFeedback';
 
-const previewFeaturesDisabledContextKey = 'github.copilot.previewFeaturesDisabled';
+const previewFeaturesDisabledContextKey = 'electivus.copilot.previewFeaturesDisabled';
 
-const debugContextKey = 'github.copilot.chat.debug';
+const debugContextKey = 'electivus.copilot.chat.debug';
 
-const missingPermissiveSessionContextKey = 'github.copilot.auth.missingPermissiveSession';
+const missingPermissiveSessionContextKey = 'electivus.copilot.auth.missingPermissiveSession';
 
-export const prExtensionInstalledContextKey = 'github.copilot.prExtensionInstalled';
+export const prExtensionInstalledContextKey = 'electivus.copilot.prExtensionInstalled';
 
 export class ContextKeysContribution extends Disposable {
 
@@ -60,8 +60,8 @@ export class ContextKeysContribution extends Disposable {
 		void this._inspectContext().catch(console.error);
 		void this._updatePermissiveSessionContext().catch(console.error);
 		this._register(_authenticationService.onDidAuthenticationChange(async () => await this._onAuthenticationChange()));
-		this._register(commands.registerCommand('github.copilot.refreshToken', async () => await this._inspectContext()));
-		this._register(commands.registerCommand('github.copilot.debug.showChatLogView', async () => {
+		this._register(commands.registerCommand('electivus.copilot.refreshToken', async () => await this._inspectContext()));
+		this._register(commands.registerCommand('electivus.copilot.debug.showChatLogView', async () => {
 			this._showLogView = true;
 			await commands.executeCommand('setContext', showLogViewContextKey, true);
 			await commands.executeCommand('copilot-chat.focus');

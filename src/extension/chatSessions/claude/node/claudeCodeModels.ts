@@ -12,7 +12,7 @@ import { createServiceIdentifier } from '../../../../util/common/services';
 import { Emitter } from '../../../../util/vs/base/common/event';
 import { Disposable } from '../../../../util/vs/base/common/lifecycle';
 
-const CLAUDE_CODE_MODEL_MEMENTO_KEY = 'github.copilot.claudeCode.sessionModel';
+const CLAUDE_CODE_MODEL_MEMENTO_KEY = 'electivus.copilot.claudeCode.sessionModel';
 
 /** Error thrown when no Claude models with Messages API are available */
 export class NoClaudeModelsAvailableError extends Error {
@@ -49,7 +49,7 @@ export interface IClaudeCodeModels {
 	mapSdkModelToEndpointModel(sdkModelId: string): Promise<string | undefined>;
 	/**
 	 * Registers a LanguageModelChatProvider so that Claude models appear in
-	 * VS Code's built-in model picker for the claude-code session type.
+	 * VS Code's built-in model picker for the electivus-claude-code session type.
 	 */
 	registerLanguageModelChatProvider(lm: typeof vscode['lm']): void;
 }
@@ -87,7 +87,7 @@ export class ClaudeCodeModels extends Disposable implements IClaudeCodeModels {
 				return 0;
 			}
 		};
-		this._register(lm.registerLanguageModelChatProvider('claude-code', provider));
+		this._register(lm.registerLanguageModelChatProvider('electivus-claude-code', provider));
 
 		void this._getEndpoints().then(() => this._onDidChange.fire());
 	}
@@ -119,7 +119,7 @@ export class ClaudeCodeModels extends Disposable implements IClaudeCodeModels {
 					toolCalling: endpoint.supportsToolCalls,
 					editTools: endpoint.supportedEditTools ? [...endpoint.supportedEditTools] : undefined,
 				},
-				targetChatSessionType: 'claude-code',
+				targetChatSessionType: 'electivus-claude-code',
 				// isDefault: endpoint.model === defaultModelId,
 			};
 		});

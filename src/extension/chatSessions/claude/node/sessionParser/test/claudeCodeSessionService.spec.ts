@@ -293,7 +293,7 @@ describe('ClaudeCodeSessionService', () => {
 				createAssistantSessionMessage({ uuid: 'a1', session_id: sessionId }),
 			];
 
-			const resource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const resource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(resource, CancellationToken.None);
 
 			expect(session).toBeDefined();
@@ -305,7 +305,7 @@ describe('ClaudeCodeSessionService', () => {
 		it('returns undefined when session info is not found', async () => {
 			mockSdkService.mockSessions = [];
 
-			const resource = URI.from({ scheme: 'claude-code', path: '/non-existent' });
+			const resource = URI.from({ scheme: 'electivus-claude-code', path: '/non-existent' });
 			const session = await service.getSession(resource, CancellationToken.None);
 
 			expect(session).toBeUndefined();
@@ -324,7 +324,7 @@ describe('ClaudeCodeSessionService', () => {
 				}),
 			];
 
-			const resource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const resource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(resource, CancellationToken.None);
 
 			expect(session?.messages).toHaveLength(1);
@@ -348,7 +348,7 @@ describe('ClaudeCodeSessionService', () => {
 				}),
 			];
 
-			const resource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const resource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(resource, CancellationToken.None);
 
 			expect(session?.messages).toHaveLength(1);
@@ -368,7 +368,7 @@ describe('ClaudeCodeSessionService', () => {
 				createAssistantSessionMessage({ uuid: 'a2', session_id: sessionId }),
 			];
 
-			const resource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const resource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(resource, CancellationToken.None);
 
 			expect(session?.messages).toHaveLength(4);
@@ -385,7 +385,7 @@ describe('ClaudeCodeSessionService', () => {
 				createAssistantSessionMessage({ uuid: 'valid-2', session_id: sessionId }),
 			];
 
-			const resource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const resource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(resource, CancellationToken.None);
 
 			expect(session?.messages).toHaveLength(2);
@@ -396,7 +396,7 @@ describe('ClaudeCodeSessionService', () => {
 		it('handles SDK errors in getSession gracefully', async () => {
 			mockSdkService.getSessionInfo = async () => { throw new Error('SDK read failed'); };
 
-			const resource = URI.from({ scheme: 'claude-code', path: '/error-session' });
+			const resource = URI.from({ scheme: 'electivus-claude-code', path: '/error-session' });
 			const session = await service.getSession(resource, CancellationToken.None);
 
 			expect(session).toBeUndefined();
@@ -409,7 +409,7 @@ describe('ClaudeCodeSessionService', () => {
 			];
 			mockSdkService.mockSessionMessages = [];
 
-			const resource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const resource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(resource, CancellationToken.None);
 
 			expect(session).toBeDefined();
@@ -423,7 +423,7 @@ describe('ClaudeCodeSessionService', () => {
 			];
 			mockSdkService.mockSessionMessages = [];
 
-			const resource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const resource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(resource, CancellationToken.None);
 
 			expect(session?.folderName).toBe('project');
@@ -447,7 +447,7 @@ describe('ClaudeCodeSessionService', () => {
 				return originalGetMessages(id, dir);
 			};
 
-			const resource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const resource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(resource, tokenSource.token);
 
 			expect(session).toBeUndefined();
@@ -619,7 +619,7 @@ describe('ClaudeCodeSessionService', () => {
 			// Mock parent JSONL for correlation
 			mockFs.mockFile(URI.joinPath(projectDirUri, `${sessionId}.jsonl`), '', 1000);
 
-			const sessionResource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const sessionResource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(sessionResource, CancellationToken.None);
 
 			expect(session).toBeDefined();
@@ -642,7 +642,7 @@ describe('ClaudeCodeSessionService', () => {
 
 			mockFs.mockDirectory(subagentsDirUri, []);
 
-			const sessionResource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const sessionResource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(sessionResource, CancellationToken.None);
 
 			expect(session).toBeDefined();
@@ -675,7 +675,7 @@ describe('ClaudeCodeSessionService', () => {
 			mockFs.mockFile(URI.joinPath(subagentsDirUri, 'agent-a21e2f5.jsonl'), subagentContents, 1000);
 			mockFs.mockFile(URI.joinPath(projectDirUri, `${sessionId}.jsonl`), parentContents, 1000);
 
-			const sessionResource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const sessionResource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(sessionResource, CancellationToken.None);
 
 			expect(session).toBeDefined();
@@ -714,7 +714,7 @@ describe('ClaudeCodeSessionService', () => {
 			mockFs.mockFile(URI.joinPath(subagentsDirUri, 'agent-abc123.jsonl'), validSubagentContent, 1000);
 			mockFs.mockFile(URI.joinPath(projectDirUri, `${sessionId}.jsonl`), '', 1000);
 
-			const sessionResource = URI.from({ scheme: 'claude-code', path: '/' + sessionId });
+			const sessionResource = URI.from({ scheme: 'electivus-claude-code', path: '/' + sessionId });
 			const session = await service.getSession(sessionResource, CancellationToken.None);
 
 			expect(session).toBeDefined();

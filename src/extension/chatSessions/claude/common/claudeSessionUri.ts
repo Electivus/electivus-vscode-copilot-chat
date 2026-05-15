@@ -6,7 +6,7 @@
 import { URI } from '../../../../util/vs/base/common/uri';
 
 export namespace ClaudeSessionUri {
-	export const scheme = 'claude-code';
+	export const scheme = 'electivus-claude-code';
 
 	export function forSessionId(sessionId: string): URI {
 		return URI.from({ scheme: ClaudeSessionUri.scheme, path: '/' + sessionId });

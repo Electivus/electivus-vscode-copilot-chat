@@ -448,7 +448,7 @@ describe('ClaudeCodeModels', () => {
 			expect(sonnet.name).toBe('Claude Sonnet 4');
 			expect(sonnet.family).toBe('claude-sonnet-4');
 			expect(sonnet.multiplier).toBe('1x');
-			expect(sonnet.targetChatSessionType).toBe('claude-code');
+			expect(sonnet.targetChatSessionType).toBe('electivus-claude-code');
 			expect(sonnet.isUserSelectable).toBe(true);
 
 			const opus = info.find(i => i.id === 'claude-opus-4.5-model')!;

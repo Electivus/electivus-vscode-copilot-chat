@@ -31,27 +31,11 @@ type PullRequestCommit = {
 	readonly sha: string;
 }
 
-const collaborators = [
-	"aeschli", "aiday-mar", "alexdima", "alexr00", "amunger", "anthonykim1", "bamurtaugh", "benibenj", "benvillalobos", "bhavyaus",
-	"binderjoe", "bpasero", "bryanchen-d", "burkeholland", "chrmarti", "connor4312", "cwebster-99", "dbaeumer", "deepak1556",
-	"devinvalenciano", "digitarald", "dileepyavan", "dineshc-msft", "dmitrivMS", "DonJayamanne", "egamma", "eleanorjboyd", "eli-w-king",
-	"hawkticehurst", "hediet", "isidorn", "jo-oikawa", "joaomoreno", "joshspicer", "jrieken", "jruales", "justschen", "karthiknadig",
-	"kieferrm", "kkbrooks", "kycutler", "lramos15", "lszomoru", "luabud", "meganrogge", "minsa110", "mjbvz", "mrleemurray", "nguyenchristy",
-	"ntrogh", "olguzzar", "osortega", "pierceboggan", "pwang347", "rebornix", "roblourens", "rzhao271", "sandy081", "sbatten", "TylerLeonhardt",
-	"Tyriar", "ulugbekna", "vijayupadya", "Yoyokrazy"
-];
+type RepositoryPermission = {
+	readonly permission: string;
+}
 
-// TODO@lszomoru - Investigate issues with the `/collaborators` endpoint
-// async function getCollaborators(repository: string): Promise<readonly string[]> {
-// 	const { stdout, stderr } = await execAsync(
-// 		`gh api -H "Accept: application/vnd.github+json" /repos/${repository}/collaborators --paginate`, { maxBuffer: 25 * 1024 * 1024 });
-
-// 	if (stderr) {
-// 		throw new Error(`Error fetching repository collaborators - ${stderr}`);
-// 	}
-
-// 	return JSON.parse(stdout) as ReadonlyArray<string>;
-// }
+const allowedCacheLayerPermissions = new Set(['admin', 'maintain', 'write']);
 
 async function getCommit(repository: string, sha: string): Promise<Commit> {
 	const { stdout, stderr } = await execAsync(
@@ -86,6 +70,23 @@ async function getPullRequestCommits(repository: string, pullRequestNumber: stri
 	return JSON.parse(stdout).map((commit: PullRequestCommit) => commit.sha);
 }
 
+async function getRepositoryPermission(repository: string, username: string): Promise<string> {
+	try {
+		const { stdout, stderr } = await execAsync(
+			`gh api -H "Accept: application/vnd.github+json" /repos/${repository}/collaborators/${encodeURIComponent(username)}/permission`,
+			{ maxBuffer: 25 * 1024 * 1024 });
+
+		if (stderr) {
+			throw new Error(`Error fetching repository permission for ${username} - ${stderr}`);
+		}
+
+		return (JSON.parse(stdout) as RepositoryPermission).permission;
+	} catch (error) {
+		console.log(`     - Could not resolve repository permission for ${username}: ${error}`);
+		return 'none';
+	}
+}
+
 async function checkDatabaseFile(files: ReadonlyArray<PullRequestFile>): Promise<boolean> {
 	const baseFile = files.find(f => f.filename.toLowerCase() === 'test/simulation/cache/base.sqlite');
 	if (!baseFile) {
@@ -101,20 +102,19 @@ async function checkDatabaseFile(files: ReadonlyArray<PullRequestFile>): Promise
 }
 
 async function checkDatabaseLayerFiles(repository: string, pullRequestNumber: string, files: readonly PullRequestFile[])
-	: Promise<{ statusCheck: boolean; verifiedCheck: boolean; collaboratorCheck: boolean }> {
+	: Promise<{ statusCheck: boolean; permissionCheck: boolean }> {
 	const layerFiles = files.filter(f => f.filename.toLowerCase().startsWith('test/simulation/cache/layers/'));
 
 	if (layerFiles.length === 0) {
 		console.log('✅ Pull request does not contain any layer files.');
-		return { statusCheck: true, verifiedCheck: true, collaboratorCheck: true };
+		return { statusCheck: true, permissionCheck: true };
 	}
 
-	// Get collaborators and commits for the pull request
-	// const collaborators = await getCollaborators(repository);
 	const pullRequestCommits = await getPullRequestCommits(repository, pullRequestNumber);
 	const commitsWithDetails = await Promise.all(pullRequestCommits.map(sha => getCommit(repository, sha)));
 
-	let statusCheckResult = true, verifiedCheckResult = true, collaboratorCheckResult = true;
+	let statusCheckResult = true, permissionCheckResult = true;
+	const permissions = new Map<string, string>();
 	console.log(`🔍 Pull request contains ${layerFiles.length} layer files. Checking status and author...`);
 
 	for (const file of layerFiles) {
@@ -132,20 +132,22 @@ async function checkDatabaseLayerFiles(repository: string, pullRequestNumber: st
 
 		console.log(`     - Commit(s):`);
 		for (const commit of commits) {
-			const collaboratorCheck = collaborators.find(c => c === commit.committer.login);
-			const verifiedCheck = commit.commit.verification.verified && commit.commit.verification.reason === 'valid';
-			console.log(`       - ${commit.sha} by ${commit.committer.login}. Collaborator: ${collaboratorCheck ? '✅' : '⛔'} Verified: ${verifiedCheck ? '✅' : '⛔'}`);
-
-			if (!verifiedCheck) {
-				verifiedCheckResult = false;
+			let permission = permissions.get(commit.committer.login);
+			if (!permission) {
+				permission = await getRepositoryPermission(repository, commit.committer.login);
+				permissions.set(commit.committer.login, permission);
 			}
-			if (!collaboratorCheck) {
-				collaboratorCheckResult = false;
+
+			const permissionCheck = allowedCacheLayerPermissions.has(permission);
+			console.log(`       - ${commit.sha} by ${commit.committer.login}. Repository permission: ${permission} ${permissionCheck ? '✅' : '⛔'}`);
+
+			if (!permissionCheck) {
+				permissionCheckResult = false;
 			}
 		}
 	}
 
-	return { statusCheck: statusCheckResult, verifiedCheck: verifiedCheckResult, collaboratorCheck: collaboratorCheckResult };
+	return { statusCheck: statusCheckResult, permissionCheck: permissionCheckResult };
 }
 
 async function main() {
@@ -174,8 +176,8 @@ async function main() {
 		if (!layerCheckResult.statusCheck) {
 			throw new Error('Cache layer files can only be added or deleted, never modified');
 		}
-		if (!layerCheckResult.verifiedCheck || !layerCheckResult.collaboratorCheck) {
-			throw new Error('Cache layer files can only be added by VS Code team members with signed commits');
+		if (!layerCheckResult.permissionCheck) {
+			throw new Error('Cache layer files can only be added by repository maintainers or collaborators with write access');
 		}
 	} catch (error) {
 		console.log('::error::⛔', error);

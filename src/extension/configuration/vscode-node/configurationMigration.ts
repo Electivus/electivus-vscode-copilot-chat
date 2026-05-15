@@ -76,7 +76,7 @@ export class ConfigurationMigrationContribution implements IExtensionContributio
 		];
 
 		for (const [inspectValue, target] of targetPairs) {
-			if (!inspectValue) {
+			if (inspectValue === undefined) {
 				continue;
 			}
 
@@ -112,69 +112,68 @@ export class ConfigurationMigrationContribution implements IExtensionContributio
 	}
 }
 
-ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: 'github.copilot.chat.experimental.setupTests.enabled',
-	migrateFn: async (value: any) => {
-		return [
-			['github.copilot.chat.setupTests.enabled', { value }],
-			['github.copilot.chat.experimental.setupTests.enabled', { value: undefined }]
-		];
-	}
-}]);
-
-ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: 'github.copilot.chat.experimental.codeGeneration.instructions',
-	migrateFn: async (value: any) => {
-		return [
-			['github.copilot.chat.codeGeneration.instructions', { value }],
-			['github.copilot.chat.experimental.codeGeneration.instructions', { value: undefined }]
-		];
-	}
-}]);
-
-ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: 'github.copilot.chat.experimental.codeGeneration.useInstructionFiles',
-	migrateFn: async (value: any) => {
-		return [
-			['github.copilot.chat.codeGeneration.useInstructionFiles', { value }],
-			['github.copilot.chat.experimental.codeGeneration.useInstructionFiles', { value: undefined }]
-		];
-	}
-}]);
-
-ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: 'github.copilot.chat.experimental.testGeneration.instructions',
-	migrateFn: async (value: any) => {
-		return [
-			['github.copilot.chat.testGeneration.instructions', { value }],
-			['github.copilot.chat.experimental.testGeneration.instructions', { value: undefined }]
-		];
-	}
-}]);
-
-ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: 'github.copilot.chat.planAgent.model',
-	migrateFn: async (value: any) => {
-		return [
-			['chat.planAgent.defaultModel', { value }],
-			['github.copilot.chat.planAgent.model', { value: undefined }]
-		];
-	}
-}]);
-
-const oldCursorJumpKey = 'github.copilot.chat.advanced.inlineEdits.nextCursorPrediction.enabled';
-const newCursorJumpKey = 'github.copilot.nextEditSuggestions.extendedRange';
-ConfigurationMigrationRegistry.registerConfigurationMigrations([{
-	key: oldCursorJumpKey,
-	migrateFn: async (value: boolean |  /* the rest is for backward compat: */ NextCursorLinePrediction | 'labelOnlyWithEdit' | boolean | undefined) => {
-		if (typeof value === 'string') { // for backward compatibility -- one of 'onlyWithEdit' | 'jump' | 'labelOnlyWithEdit'
-			value = true;
-		} else if (value === undefined) {
-			value = false;
+function createConfigurationMigration(sourceKey: string, targetKey: string, migrateValue: (value: any) => any = value => value): ConfigurationMigration {
+	return {
+		key: sourceKey,
+		migrateFn: async (value: any) => {
+			return [
+				[targetKey, { value: migrateValue(value) }],
+				[sourceKey, { value: undefined }]
+			];
 		}
-		return [
-			[newCursorJumpKey, { value }],
-			[oldCursorJumpKey, { value: undefined }]
-		];
+	};
+}
+
+function registerLegacyAwareConfigurationMigration(legacySourceKey: string, currentSourceKey: string, targetKey: string, migrateValue?: (value: any) => any): void {
+	ConfigurationMigrationRegistry.registerConfigurationMigrations([
+		createConfigurationMigration(legacySourceKey, targetKey, migrateValue),
+		createConfigurationMigration(currentSourceKey, targetKey, migrateValue),
+	]);
+}
+
+registerLegacyAwareConfigurationMigration(
+	'github.copilot.chat.experimental.setupTests.enabled',
+	'electivus.copilot.chat.experimental.setupTests.enabled',
+	'electivus.copilot.chat.setupTests.enabled'
+);
+
+registerLegacyAwareConfigurationMigration(
+	'github.copilot.chat.experimental.codeGeneration.instructions',
+	'electivus.copilot.chat.experimental.codeGeneration.instructions',
+	'electivus.copilot.chat.codeGeneration.instructions'
+);
+
+registerLegacyAwareConfigurationMigration(
+	'github.copilot.chat.experimental.codeGeneration.useInstructionFiles',
+	'electivus.copilot.chat.experimental.codeGeneration.useInstructionFiles',
+	'electivus.copilot.chat.codeGeneration.useInstructionFiles'
+);
+
+registerLegacyAwareConfigurationMigration(
+	'github.copilot.chat.experimental.testGeneration.instructions',
+	'electivus.copilot.chat.experimental.testGeneration.instructions',
+	'electivus.copilot.chat.testGeneration.instructions'
+);
+
+registerLegacyAwareConfigurationMigration(
+	'github.copilot.chat.planAgent.model',
+	'electivus.copilot.chat.planAgent.model',
+	'chat.planAgent.defaultModel'
+);
+
+const legacyCursorJumpKey = 'github.copilot.chat.advanced.inlineEdits.nextCursorPrediction.enabled';
+const oldCursorJumpKey = 'electivus.copilot.chat.advanced.inlineEdits.nextCursorPrediction.enabled';
+const newCursorJumpKey = 'electivus.copilot.nextEditSuggestions.extendedRange';
+registerLegacyAwareConfigurationMigration(
+	legacyCursorJumpKey,
+	oldCursorJumpKey,
+	newCursorJumpKey,
+	(value: boolean | NextCursorLinePrediction | 'labelOnlyWithEdit' | undefined) => {
+		if (typeof value === 'string') { // for backward compatibility -- one of 'onlyWithEdit' | 'jump' | 'labelOnlyWithEdit'
+			return true;
+		} else if (value === undefined) {
+			return false;
+		}
+		return value;
 	}
-}]);
+);

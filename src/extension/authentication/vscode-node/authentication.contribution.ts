@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import { commands, window } from 'vscode';
+import * as l10n from '@vscode/l10n';
 import { IAuthenticationService } from '../../../platform/authentication/common/authentication';
 import { IAuthenticationChatUpgradeService } from '../../../platform/authentication/common/authenticationUpgrade';
 import { IVSCodeExtensionContext } from '../../../platform/extContext/common/extensionContext';
@@ -38,7 +39,33 @@ class AuthUpgradeAsk extends Disposable {
 		@IAuthenticationChatUpgradeService private readonly _authenticationChatUpgradeService: IAuthenticationChatUpgradeService,
 	) {
 		super();
-		this._register(commands.registerCommand('github.copilot.chat.triggerPermissiveSignIn', async () => {
+		this._register(commands.registerCommand('electivus.copilot.signIn', async () => {
+			try {
+				await this._authenticationService.getGitHubSession('any', {
+					createIfNone: {
+						detail: l10n.t('Sign in to GitHub to use Electivus Copilot Chat.')
+					}
+				});
+
+				if (!this._authenticationService.isMinimalMode) {
+					try {
+						await this._authenticationService.getGitHubSession('permissive', {
+							createIfNone: {
+								detail: l10n.t('Sign in to GitHub with additional permissions for enhanced Electivus Copilot Chat features.')
+							}
+						});
+					} catch (error) {
+						this._logService.debug(`Did not get permissive GitHub token during sign in: ${error}`);
+					}
+				}
+
+				await this._authenticationService.getCopilotToken(true);
+			} catch (error) {
+				this._logService.error(error, 'Failed to sign in to GitHub');
+				void window.showErrorMessage(l10n.t('Failed to sign in to GitHub: {0}', error instanceof Error ? error.message : String(error)));
+			}
+		}));
+		this._register(commands.registerCommand('electivus.copilot.chat.triggerPermissiveSignIn', async () => {
 			await this._authenticationChatUpgradeService.showPermissiveSessionModal(true);
 		}));
 	}

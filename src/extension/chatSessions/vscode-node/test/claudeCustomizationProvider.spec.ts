@@ -192,7 +192,7 @@ describe('ClaudeCustomizationProvider', () => {
 			expect(agentItems[0].name).toBe('Explore');
 			expect(agentItems[0].description).toBe('Fast exploration agent');
 			expect(agentItems[0].groupKey).toBeUndefined();
-			expect(agentItems[0].uri.scheme).toBe('claude-code');
+			expect(agentItems[0].uri.scheme).toBe('electivus-claude-code');
 			expect(agentItems[0].uri.path).toBe('/agents/Explore');
 			expect(agentItems[1].name).toBe('Review');
 		});

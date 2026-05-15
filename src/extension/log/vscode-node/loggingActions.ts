@@ -84,9 +84,9 @@ export class LoggingActionsContrib {
 
 User Settings:
 \`\`\`json${getNetworkSettings()}
-  "github.copilot.advanced.debug.useElectronFetcher": ${electronConfig},
-  "github.copilot.advanced.debug.useNodeFetcher": ${nodeConfig},
-  "github.copilot.advanced.debug.useNodeFetchFetcher": ${nodeFetchConfig}
+  "electivus.copilot.advanced.debug.useElectronFetcher": ${electronConfig},
+  "electivus.copilot.advanced.debug.useNodeFetcher": ${nodeConfig},
+  "electivus.copilot.advanced.debug.useNodeFetchFetcher": ${nodeFetchConfig}
 \`\`\`${getProxyEnvVariables()}
 `);
 			const proxyAgent = loadVSCodeModule<ProxyAgent>('@vscode/proxy-agent');
@@ -246,11 +246,11 @@ In corporate networks: [Troubleshooting firewall settings for GitHub Copilot](ht
 
 			return document.getText();
 		};
-		this._context.subscriptions.push(vscode.commands.registerCommand('github.copilot.debug.collectDiagnostics', collectDiagnostics));
+		this._context.subscriptions.push(vscode.commands.registerCommand('electivus.copilot.debug.collectDiagnostics', collectDiagnostics));
 		// Internal command is not declared in package.json so it can be used from the welcome views while the extension is being activated.
-		this._context.subscriptions.push(vscode.commands.registerCommand('github.copilot.debug.collectDiagnostics.internal', collectDiagnostics));
-		this._context.subscriptions.push(vscode.commands.registerCommand('github.copilot.debug.showOutputChannel.internal', () => outputChannel.show()));
-		this._context.subscriptions.push(vscode.commands.registerCommand('github.copilot.debug.showNodeSystemCertificatesErrors', async () => {
+		this._context.subscriptions.push(vscode.commands.registerCommand('electivus.copilot.debug.collectDiagnostics.internal', collectDiagnostics));
+		this._context.subscriptions.push(vscode.commands.registerCommand('electivus.copilot.debug.showOutputChannel.internal', () => outputChannel.show()));
+		this._context.subscriptions.push(vscode.commands.registerCommand('electivus.copilot.debug.showNodeSystemCertificatesErrors', async () => {
 			const result: Record<string, unknown> = {};
 			try {
 				const certs = tls.getCACertificates('system');
@@ -516,7 +516,7 @@ function collectFetcherTelemetry(accessor: ServicesAccessor): void {
 			const key = library.replace(/-/g, '');
 			const requestStartTime = Date.now();
 			try {
-				const response = await sendRawTelemetry(fetcher, envService, extensionContext, 'GitHub.copilot-chat/fetcherTelemetryProbe', {});
+				const response = await sendRawTelemetry(fetcher, envService, extensionContext, 'Electivus.electivus-vscode-copilot-chat/fetcherTelemetryProbe', {});
 				probeResults[key] = `Status: ${response.status}`;
 				logService.debug(`Fetcher telemetry probe: ${library} ${probeResults[key]} (${Date.now() - requestStartTime}ms)`);
 			} catch (e) {
@@ -551,7 +551,7 @@ function collectFetcherTelemetry(accessor: ServicesAccessor): void {
 					remoteName: vscode.env.remoteName ?? 'none',
 					...probeResults,
 				};
-				const response = await sendRawTelemetry(fetcher, envService, extensionContext, 'GitHub.copilot-chat/fetcherTelemetry', properties);
+				const response = await sendRawTelemetry(fetcher, envService, extensionContext, 'Electivus.electivus-vscode-copilot-chat/fetcherTelemetry', properties);
 
 				logService.debug(`Fetcher telemetry: Succeeded in ${Date.now() - requestStartTime}ms using ${fetcher.getUserAgentLibrary()} with status ${response.status} (${response.statusText}).`);
 			} catch (e) {

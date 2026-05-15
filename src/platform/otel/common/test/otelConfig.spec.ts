@@ -142,7 +142,7 @@ describe('resolveOTelConfig', () => {
 		const config = resolveOTelConfig(makeInput({
 			settingEnabled: true,
 		}));
-		expect(config.serviceName).toBe('copilot-chat');
+		expect(config.serviceName).toBe('electivus-vscode-copilot-chat');
 	});
 
 	it('overrides service name from OTEL_SERVICE_NAME', () => {

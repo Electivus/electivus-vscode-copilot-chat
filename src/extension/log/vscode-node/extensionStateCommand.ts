@@ -24,7 +24,7 @@ export class ExtensionStateCommandContribution extends Disposable implements IEx
 	) {
 		super();
 
-		this._register(vscode.commands.registerCommand('github.copilot.debug.extensionState', async () => {
+		this._register(vscode.commands.registerCommand('electivus.copilot.debug.extensionState', async () => {
 			await this._logExtensionState();
 		}));
 	}
@@ -76,7 +76,7 @@ export class ExtensionStateCommandContribution extends Disposable implements IEx
 
 			// Copilot chat provider registration
 			try {
-				const copilotModels = await vscode.lm.selectChatModels({ vendor: 'copilot' });
+				const copilotModels = await vscode.lm.selectChatModels({ vendor: 'electivus-copilot' });
 				copilotModelCount = copilotModels.length;
 				copilotProviderRegistered = String(copilotModels.length > 0);
 				lines.push(`  Copilot chat provider registered: ${copilotModels.length > 0} (models: ${copilotModels.length})`);

@@ -68,7 +68,7 @@ To disable Claude sessions, set this in your `settings.json`:
 
 ```json
 {
-  "github.copilot.chat.claudeAgent.enabled": false
+  "electivus.copilot.chat.claudeAgent.enabled": false
 }
 ```
 
@@ -91,7 +91,7 @@ A new chat session opens with the Claude welcome message: *"Powered by the same 
 
 The input placeholder reads: *"Run local tasks with Claude, type `#` for adding context"*
 
-> **Troubleshooting:** If selecting Claude shows a "Failed to open chat session" error (e.g., *"Can not find provider for claude-code"*), make sure you're signed into GitHub via the **Accounts** button in the sidebar. Claude sessions require an active GitHub Copilot subscription.
+> **Troubleshooting:** If selecting Claude shows a "Failed to open chat session" error (e.g., *"Can not find provider for electivus-claude-code"*), make sure you're signed into GitHub via the **Accounts** button in the sidebar. Claude sessions require an active GitHub Copilot subscription.
 
 ### Choosing a Model
 
@@ -122,7 +122,7 @@ In the chat input area, you'll see the current permission mode (e.g., **"Edit au
 | `default` | **Ask before edits** | Claude asks for confirmation before each edit. The safest mode — you approve every change. |
 | `acceptEdits` | **Edit automatically** | Claude auto-approves file edits within your workspace. Shell commands and other actions still require confirmation. This is the **default** for Claude sessions. |
 | `plan` | **Plan mode** | Claude first creates a plan describing what it intends to do, then asks you to approve before executing. |
-| `bypassPermissions` | **Bypass all permissions** | All tools run without confirmation. ⚠️ Only visible when `github.copilot.chat.claudeAgent.allowDangerouslySkipPermissions` is enabled. **Recommended only for sandboxed environments with no internet access.** |
+| `bypassPermissions` | **Bypass all permissions** | All tools run without confirmation. ⚠️ Only visible when `electivus.copilot.chat.claudeAgent.allowDangerouslySkipPermissions` is enabled. **Recommended only for sandboxed environments with no internet access.** |
 
 You can change the permission mode at any time during a session by clicking the permission mode button at the bottom of the chat input.
 
@@ -578,8 +578,8 @@ Hooks let you run custom scripts at key moments in Claude's execution. They're c
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| `github.copilot.chat.claudeAgent.enabled` | boolean | `true` | Enable Claude Agent sessions in VS Code |
-| `github.copilot.chat.claudeAgent.allowDangerouslySkipPermissions` | boolean | `false` | Show "Bypass all permissions" option. ⚠️ Sandboxes only |
+| `electivus.copilot.chat.claudeAgent.enabled` | boolean | `true` | Enable Claude Agent sessions in VS Code |
+| `electivus.copilot.chat.claudeAgent.allowDangerouslySkipPermissions` | boolean | `false` | Show "Bypass all permissions" option. ⚠️ Sandboxes only |
 
 ---
 

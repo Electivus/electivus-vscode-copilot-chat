@@ -17,7 +17,7 @@ export class ScenarioAutomationEndpointProviderImpl extends ProductionEndpointPr
 			// When using no auth in scenario automation, we want to force using a custom model / non-copilot for all requests
 			const getFirstNonCopilotModel = async () => {
 				const allModels = await lm.selectChatModels();
-				const firstNonCopilotModel = allModels.find(m => m.vendor !== 'copilot');
+				const firstNonCopilotModel = allModels.find(m => m.vendor !== 'electivus-copilot');
 				if (firstNonCopilotModel) {
 					this._logService.trace(`Using custom contributed chat model`);
 					return this._instantiationService.createInstance(ExtensionContributedChatEndpoint, firstNonCopilotModel);
@@ -33,7 +33,7 @@ export class ScenarioAutomationEndpointProviderImpl extends ProductionEndpointPr
 
 			// Check if a copilot model was explicitly requested in the picker
 			const model = 'model' in requestOrFamilyOrModel ? requestOrFamilyOrModel.model : requestOrFamilyOrModel;
-			if (model.vendor === 'copilot') {
+			if (model.vendor === 'electivus-copilot') {
 				return getFirstNonCopilotModel();
 			}
 		}

@@ -55,16 +55,16 @@ export async function executeIntentTest(testingServiceCollection: TestingService
 
 function detectedParticipantToIntentId(detected: ChatParticipantDetectionResult) {
 	switch (detected.participant) {
-		case 'github.copilot.default':
+		case 'electivus.copilot.default':
 			return 'unknown';
-		case `github.copilot.${editingSessionAgentEditorName}`:
+		case `electivus.copilot.${editingSessionAgentEditorName}`:
 			if (detected.command) {
 				return detected.command;
 			}
 			return 'unknown';
-		case 'github.copilot.terminalPanel':
+		case 'electivus.copilot.terminalPanel':
 			return 'terminalExplain';
-		case `github.copilot.${editsAgentName}`:
+		case `electivus.copilot.${editsAgentName}`:
 			switch (detected.command) {
 				case 'new':
 					return 'new';
@@ -77,10 +77,10 @@ function detectedParticipantToIntentId(detected: ChatParticipantDetectionResult)
 				default:
 					return 'workspace';
 			}
-		case 'github.copilot.vscode':
+		case 'electivus.copilot.vscode':
 			return 'vscode';
-		case 'github.copilot-dynamic.platform':
-			return 'github.copilot-dynamic.platform';
+		case 'electivus.copilot-dynamic.platform':
+			return 'electivus.copilot-dynamic.platform';
 	}
 	throw new Error(`Unknown participant ${detected.participant} with command ${detected.command}`);
 }
